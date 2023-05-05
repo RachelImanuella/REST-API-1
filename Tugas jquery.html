@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Berita Indonesia</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1>Data Berita Indonesia</h1>
+	<table id="data-table">
+		<thead>
+			<tr>
+				<th>Judul</th>
+				<th>Deskripsi</th>
+				<th>Tanggal</th>
+				<th>Sumber</th>
+				<th>URL</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<script>
+		$(document).ready(function(){
+			// Panggil REST API untuk mengambil data berita Indonesia
+			$.ajax({
+				url: 'https://berita-indo-api.vercel.app/v1/cnn-news',
+				type: 'GET',
+				dataType: 'json',
+				success: function(data){
+					// Tampilkan data dalam tabel HTML
+					$.each(data.data, function(i, item){
+						$('#data-table').append(
+							'<tr>' +
+								'<td>' + item.title + '</td>' +
+								'<td>' + item.description + '</td>' +
+								'<td>' + item.date + '</td>' +
+								'<td>' + item.publisher + '</td>' +
+								'<td><a href="' + item.url + '">Baca Selengkapnya</a></td>' +
+							'</tr>'
+						);
+					});
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log('Error:', textStatus, errorThrown);
+				}
+			});
+			return false;
+		});
+	</script>
+</body>
+</html>
